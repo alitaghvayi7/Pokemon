@@ -2,12 +2,11 @@ const pokemonContainer = document.querySelector('.pokemon-container');
 const loading = document.querySelector('.loading');
 const searchInput = document.querySelector('.search-input');
 
-let pokemons = [];
-let fetchData = true;
+const pokemons = [];
 
 
 window.addEventListener('load', async () => {
-    
+
     await getPokemonsFromApi();
 
     const divs = pokemons.map((poke) => {
@@ -35,12 +34,13 @@ async function getPokemonsFromApi() {
 
 function filteringPokemons(event) {
     pokemonContainer.textContent = "";
+    showLoading();
 
     const newResults = pokemons.filter((pokemon) => {
         return pokemon.name.includes(event.target.value);
     });
 
-    if(!newResults.length){
+    if (!newResults.length) {
         pokemonContainer.textContent = "No Item To Show ";
         return
     }
@@ -48,6 +48,8 @@ function filteringPokemons(event) {
     const divs = newResults.map((poke) => {
         return generatePokemons(poke.imageUrl, poke.name);
     });
+
+    hiddenLoading();
 
     divs.forEach((div) => {
         pokemonContainer.append(div);
